@@ -15,6 +15,7 @@ public class CitySim9000Driver {
 		CitySim9000 cs9000 = new CitySim9000();
 		HashMap<String, ArrayList<String>> cityMap = cs9000.createMap();
 		String startLoc = cs9000.getStartingLocation(rand);
+		if("".equals(startLoc)) System.exit(0);
 		for(int k = 0; k < 5; k++){
 			cs9000.simulateDriver(rand, k, cityMap, startLoc);
 			System.out.println("-----");

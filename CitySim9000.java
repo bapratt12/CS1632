@@ -26,7 +26,7 @@ public class CitySim9000 {
 		ArrayList<String> coffeeDest = new ArrayList<>();
 		coffeeDest.add("Fifth Ave," + "Outside City"); coffeeDest.add("Meow Street," + "Mall");
 		ArrayList<String> outsideDest = new ArrayList<>();
-		outsideDest.add("Fourth Ave," + "Mall"); bookDest.add("Fifth Ave," + "University");
+		outsideDest.add("Fourth Ave," + "Mall"); outsideDest.add("Fifth Ave," + "University");
 		
 		//put origin and possible destinations into HashMap
 		cityMap.put("Mall", mallDest);
@@ -58,32 +58,36 @@ public class CitySim9000 {
 		return false;
 	}
 	
-	
-	
-	public void simulateDriver(Random rand, int driverNum, HashMap<String, ArrayList<String>> cityMap, String startLoc){
-		String currentLoc = startLoc;
+	//print out driver traveling info
+	//return next location
+	private String outputString(Random rand, int driverNum, HashMap<String, ArrayList<String>> cityMap, String loc){
 		String nextLoc = "";
 		String street = "";
 		int nextLocInt = 0;
+		nextLocInt = rand.nextInt(cityMap.get(loc).size());
+		String[] streetAndLoc = cityMap.get(loc).get(nextLocInt).split(",");
+		street = streetAndLoc[0];
+		nextLoc = streetAndLoc[1];
+		System.out.printf("Driver %d heading from %s to %s via %s.\n", driverNum, loc, nextLoc, street);
+		if("Outside City".equals(nextLoc)){
+			System.out.printf("Driver %d has left the city!\n", driverNum);
+		}
+		return nextLoc;
+	}
+	
+	//returns number of times driver traveled before exiting
+	public int simulateDriver(Random rand, int driverNum, HashMap<String, ArrayList<String>> cityMap, String startLoc){
+		String currentLoc = startLoc;
+		int counter = 0;
 		if("Outside City".equals(currentLoc)){
-			nextLocInt = rand.nextInt(cityMap.get(currentLoc).size());
-			String[] streetAndLoc = cityMap.get(currentLoc).get(nextLocInt).split(",");
-			street = streetAndLoc[0];
-			nextLoc = streetAndLoc[1];
-			System.out.printf("Driver %d heading from %s to %s via %s.", driverNum, currentLoc, nextLoc, street);
-			currentLoc = nextLoc;
+			currentLoc = outputString(rand, driverNum, cityMap, currentLoc);
+			counter++;
 		}
 		while(!isEnd(currentLoc)){
-			nextLocInt = rand.nextInt(cityMap.get(currentLoc).size());
-			String[] streetAndLoc = cityMap.get(currentLoc).get(nextLocInt).split(",");
-			street = streetAndLoc[0];
-			nextLoc = streetAndLoc[1];
-			System.out.printf("Driver %d heading from %s to %s via %s.\n", driverNum, currentLoc, nextLoc, street);
-			if("Outside City".equals(nextLoc)){
-				System.out.printf("Driver %d has left the city!\n", driverNum);
-			}
-			currentLoc = nextLoc;
+			currentLoc = outputString(rand, driverNum, cityMap, currentLoc);
+			counter++;
 		}
+		return counter;
 		
 	}
 	
