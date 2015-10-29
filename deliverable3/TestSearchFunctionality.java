@@ -32,7 +32,7 @@ public class TestSearchFunctionality {
     driver.findElement(By.xpath("//header/div/div[2]/div/span")).click();
     driver.findElement(By.linkText("past 24 hours")).click();
     int time = 24;
-    String s = new String(driver.findElement(By.xpath("//div[4]/div/div/div/div/div/span[3]/time")));
+    String s = driver.findElement(By.xpath("//div[4]/div/div/div/div/div/span[3]/time")).getText();
     int i = Integer.parseInt(s.replaceAll("[\\D]", ""));
     int val = time - i;
     assertTrue(val>=0);
@@ -49,9 +49,9 @@ public class TestSearchFunctionality {
     driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
     driver.findElement(By.cssSelector("div.dropdown.lightdrop > span.selected")).click();
     driver.findElement(By.linkText("top")).click();
-    String s1 = new String(driver.findElement(By.name("css=span.search-score")));
+    String s1 = driver.findElement(By.name("css=span.search-score")).getText();
     int first = Integer.parseInt(s1.replaceAll("[\\D]", ""));
-    String s2 = new String(driver.findElement(By.xpath("//div[2]/div/div/span[2]")));
+    String s2 = driver.findElement(By.xpath("//div[2]/div/div/span[2]")).getText();
     int second = Integer.parseInt(s2.replaceAll("[\\D]", ""));
     assertTrue(first>=second);
   }
