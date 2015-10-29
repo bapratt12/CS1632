@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.regex.*;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -33,9 +33,7 @@ public class TestSearchFunctionality {
     driver.findElement(By.linkText("past 24 hours")).click();
     int time = 24;
     String s = new String(driver.findElement(By.xpath("//div[4]/div/div/div/div/div/span[3]/time")));
-    Matcher matcher = Pattern.compile("\\d+").matcher(s);
-    matcher.find();
-    int i = Integer.valueOf(matcher.group());
+    int i = Integer.parseInt(s.replaceAll("[\\D]", ""));
     int val = time - i;
     assertTrue(val>=0);
   }
@@ -51,14 +49,10 @@ public class TestSearchFunctionality {
     driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
     driver.findElement(By.cssSelector("div.dropdown.lightdrop > span.selected")).click();
     driver.findElement(By.linkText("top")).click();
-    String s1 = new String(driver.findElement(By.name("css=span.search-score"));
-    Matcher matcher = Pattern.compile("\\d+").matcher(s);
-    matcher.find();
-    int first = Integer.valueOf(matcher.group());
+    String s1 = new String(driver.findElement(By.name("css=span.search-score")));
+    int first = Integer.parseInt(s1.replaceAll("[\\D]", ""));
     String s2 = new String(driver.findElement(By.xpath("//div[2]/div/div/span[2]")));
-    Matcher matcher = Pattern.compile("\\d+").matcher(s);
-    matcher.find();
-    int second = Integer.valueOf(matcher.group());
+    int second = Integer.parseInt(s2.replaceAll("[\\D]", ""));
     assertTrue(first>=second);
   }
 
